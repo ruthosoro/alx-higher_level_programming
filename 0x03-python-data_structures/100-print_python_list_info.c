@@ -1,33 +1,29 @@
-#include "lists.h"
 #include <stdio.h>
-<<<<<<< HEAD
-#include <Python.h>
-=======
-#include "Python.h"
->>>>>>> 61838630971870316fd8d48bfdf7f5a6155b8270
+#include <lists.h>
 
 /**
- * print_python_list_info - a function that prints
- * some basic info about Python lists
- * @p: pointer to the python list whose info is to be printed
+ * print_python_list_info - prints python list
+ * @p: PyObject
+ * Return: no return
  */
-
 void print_python_list_info(PyObject *p)
 {
-	Py_ssize_t i = 0;
-	PyObject *element;
-	const char *element_type;
-	Py_ssize_t list_size = PyList_Size(p);
-	Py_ssize_t list_allocated = ((PyListObject *)p)->allocated;
+	PyListObject *list;
+	Py_ssize_t size, i;
+	PyObject *object;
+	struct _typeobject *type;
 
-	printf("[*] Size of the Python List = %zd\n", list_size);
-	printf("[*] Allocated = %zd\n", list_allocated);
-
-	for (; i < list_size; i++)
+	if (strcmp(p->ob_type->tp_name, "list") == 0)
 	{
-		element = PyList_GetItem(p, i);
-		element_type = Py_TYPE(element)->tp_name;
-
-		printf("Element %zd: %s\n", i, element_type);
+		list = (PyListObject *)p;
+		size = list->ob_base.ob_size;
+		printf("[*] Size of the Python List = %ld\n", size);
+		printf("[*] Allocated = %ld\n", list->allocated);
+		for (i = 0; i < size; i++)
+		{
+			object = list->ob_item[i];
+			type = object->ob_type;
+			printf("Element %ld: %s\n", i, type->tp_name);
+		}
 	}
 }
