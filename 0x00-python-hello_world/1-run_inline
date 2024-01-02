@@ -7,8 +7,5 @@ python_code="$PYCODE"
 tmp_file=$(mktemp)
 echo "$python_code" > $tmp_file
 
-# Run the Python code
-python $tmp_file
-
 # Clean up the temporary file
 rm $tmp_file
